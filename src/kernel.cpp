@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../include/all.hpp"
+#include "mrt.hpp"
 
 // don't rename or delete the entry function
 void kernel() {
     const char* hello = "hello";
     int x = 0;
     while (*hello) {
-        write(*hello++, x++, 0);
+        mrt::write(*hello++, x++, 0);
     }
 }

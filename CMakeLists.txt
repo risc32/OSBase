@@ -4,17 +4,19 @@ project(OSBase)
 set(CMAKE_CXX_COMPILER gcc)
 set(CMAKE_C_COMPILER gcc)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -std=c++23 -ffreestanding -nostdlib -fno-rtti -fno-exceptions -fno-pic -fno-pie -fno-use-cxa-atexit -O2 -Iinclude")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -std=c++23 -ffreestanding -nostdlib -fno-rtti -fno-exceptions -fno-pic -fno-pie -fno-use-cxa-atexit -O0 -Iinclude")
+#set(CMAKE_C_FLAGS ${CMAKE_CXX_FLAGS})
 
 add_executable(kernel.elf
         src/kernel.cpp
         lowlevel/boot/middle.cpp
+        include/mrt.hpp
 )
 
-target_link_options(kernel.elf PRIVATE -m32 -nostdlib -nostartfiles -ffreestanding -static -Ttext 0x200000)
+target_link_options(kernel.elf PRIVATE -m32 -Iinclude -nostdlib -nostartfiles -ffreestanding -static -Ttext 0x200000)
 
 add_custom_command(TARGET kernel.elf POST_BUILD
-        COMMAND gcc -O binary $<TARGET_FILE:kernel.elf> ${CMAKE_BINARY_DIR}/kernel.bin
+        COMMAND COMMAND ${CMAKE_CXX_COMPILER} -O binary $<TARGET_FILE:kernel.elf> ${CMAKE_BINARY_DIR}/kernel.bin
 )
 
 set(ASM_FILES
@@ -48,3 +50,5 @@ add_custom_target(run
         COMMAND qemu-system-i386 -drive format=raw,file=${IMG_FILE}
         DEPENDS disk_image
 )
+
+target_include_directories(kernel.elf PRIVATE include)
