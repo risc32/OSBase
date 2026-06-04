@@ -8,8 +8,8 @@ extern "C" void _start() {
     }
 }
 namespace mrt {
-#include "../lowlevel/mstd/basic.cpp"
-#include "../lowlevel/mstd/asm.cpp"
-#include "../lowlevel/mstd/disk.cpp"
-#include "../lowlevel/mstd/scio.cpp"
+#include "../lowlevel/mrt/basic.cpp"
+#include "../lowlevel/mrt/asm.cpp"
+#include "../lowlevel/mrt/disk.cpp"
+#include "../lowlevel/mrt/scio.cpp"
 }
